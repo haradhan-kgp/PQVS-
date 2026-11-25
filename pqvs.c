@@ -2,10 +2,7 @@
  * Validation of the algebra (S1-S3, correctness, privacy-shift identities, attacks)
  * and cost / parameter reporting.  NOT constant time, RNG NOT cryptographic.
  * Field arithmetic uses uint64 with q < 2^62 (unsigned __int128 for products).
- *
- *   ./pqvs validate
- *   ./pqvs bench t n lam_s qbits m k      (builds t-of-n minimal-set DNF, times everything)
- *   ./pqvs plan  t n lam_s qbits m        (closed-form parameters/costs, any qbits, any n)
+ 
  */
 #define _POSIX_C_SOURCE 200809L
 #define _DEFAULT_SOURCE
