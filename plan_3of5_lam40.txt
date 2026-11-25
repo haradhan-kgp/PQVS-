@@ -1,0 +1,8 @@
+PLAN 3-of-5 (minimal-set DNF): slots d=30, coords l=21, gamma=Lambda=3, zeta=10, slots/party=6
+  lam_s=40 m=2048 q~2^80; largest k allowed by K1: 38
+  K1 hiding   : m*log2(3)=3246.0 >= (k+1)ceil(lg q)+2*lam_s=3200.0   [ok]
+  K2 flooding : log2 By = 54.32 (By = zeta*m*2^lam_s)
+  K3 binding  : log2 beta_con = 63.99, log2 q = 80.00   [beta<q ok]
+  SIS estimate: BKZ block ~50  => ~2^15 classical / 2^13 quantum (core-SVP, crude; confirm with lattice-estimator)
+  sizes: |D| = 65520 bits, key = 6389760 bits, slot record = 116816 bits, per-party = 700896 bits
+  ops (Z_q mult-adds): Share coords=1.68e+06, slot randomness=1.84e+05, SlotCom/slot=117, Verify/slot=8e+04, Reconstruct=2.4e+05

@@ -1,0 +1,24 @@
+# Output of proverif/run.sh (hand-written 2-of-3) and proverif/run_gen.sh (generated 2-of-3, 3-of-5, 5-of-10)
+=== secrecy_P1only / P2only / P3only
+RESULT not attacker(s[]) is true.
+=== leak_P1P2
+RESULT not attacker(s[]) is false.
+=== soundness
+RESULT event(Accept(x)) ==> event(Dealt(x)) is true.
+RESULT not event(Accept(x)) is false.
+=== equiv_P1only / P2only / P3only
+RESULT Observational equivalence is true.
+=== consistency
+RESULT event(RecDone(d,x)) && event(RecDone(d,y)) ==> x = y is true.
+RESULT event(RecNaive(d,x)) && event(RecNaive(d,y)) ==> x = y cannot be proved.
+RESULT not event(RecDone(d,x)) is false.
+
+# run_gen.sh t n  -- identical RESULT lines for (t,n) = (2,3), (3,5), (5,10):
+=== secrecy_unauth        RESULT not attacker(s[]) is true.
+=== secrecy_auth          RESULT not attacker(s[]) is false.
+=== soundness             RESULT event(Accept(x)) ==> event(Dealt(x)) is true.
+                          RESULT not event(Accept(x)) is false.
+=== consistency           RESULT event(RecDone(d,x)) && event(RecDone(d,y)) ==> x = y is true.
+                          RESULT event(RecNaive(d,x)) && event(RecNaive(d,y)) ==> x = y cannot be proved.
+                          RESULT not event(RecDone(d,x)) is false.
+=== equiv_unauth          RESULT Observational equivalence is true.

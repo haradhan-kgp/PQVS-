@@ -1,0 +1,11 @@
+# Machine: Windows host, Docker gcc image (gcc -O2). Timings are machine dependent.
+$ ./pqvs bench 3 5 16 62 512 11
+BENCH 3-of-5: d=30 l=21 gamma=3 Lambda=3 zeta=10  q=2305843009213693967 (62 bits) m=512 k=11 lam_s=16
+  K1 hiding   : m*log2(3)=811.5 >= (k+1)ceil(lg q)+2*lam_s=764.0   [ok]
+  K2 flooding : log2 By = 28.32 (By = zeta*m*2^lam_s)
+  K3 binding  : log2 beta_con = 36.99, log2 q = 61.00   [beta<q ok]
+  SIS estimate: BKZ block ~50  => ~2^15 classical / 2^13 quantum (core-SVP, crude; confirm with lattice-estimator)
+  all honest slots verify & reconstruct ok: yes
+  time: Share 3.650 ms | SlotCom 0.0014 ms/slot | VerifyShare 0.1216 ms/slot (incl. SlotCom) | Reconstruct+verify 0.608 ms
+  sizes: |D| = 1922 bytes, key = 46848 bytes, slot record = 1992 bytes (32-bit-aligned bit counts: 15933 bits)
+  per party: 6 slots, 11.7 KiB

@@ -1,0 +1,32 @@
+(* ===== PQVS symbolic model: shared declarations (hand-written 2-of-3 models) =====
+   Policy  F = (P1&P2) | (P2&P3) | (P1&P3)      l = 4 coordinates, d = 6 slots
+     v1 = s (secret), v2, v3, v4 random
+     clause A: P1 gets v2 , P2 gets s - v2      commitments D2 , D1 - D2
+     clause B: P2 gets v3 , P3 gets s - v3      commitments D3 , D1 - D3
+     clause C: P1 gets v4 , P3 gets s - v4      commitments D4 , D1 - D4
+   Abstraction: Com(x;y) is a free constructor (perfectly hiding + perfectly binding);
+   linear homomorphism is an equational theory; randomness is an abstract element.
+   csub (slot-commitment derivation) is private: only honest verifiers apply it.
+   Shortness bounds, SIS and statistical hiding are NOT represented. *)
+
+free c: channel.                       (* public bulletin board / network, attacker-controlled *)
+
+type elem.                             (* Z_q elements and randomness vectors, treated uniformly *)
+type cm.                               (* commitments *)
+
+fun com(elem, elem): cm.               (* Com(x; y) *)
+fun add(elem, elem): elem.
+fun sub(elem, elem): elem.
+fun csub(cm, cm): cm [private].
+
+equation forall x: elem, y: elem; add(x, sub(y, x)) = y.
+equation forall x1: elem, y1: elem, x2: elem, y2: elem;
+  csub(com(x1, y1), com(x2, y2)) = com(sub(x1, x2), sub(y1, y2)).
+
+event Dealt(elem).
+event Accept(elem).
+event RecDone(cm, elem).
+event RecNaive(cm, elem).
+
+free s: elem [private].                (* the dealt secret *)
+free s0, s1: elem [private].           (* for the indistinguishability runs *)

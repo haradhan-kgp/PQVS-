@@ -1,0 +1,36 @@
+(* ===== malicious dealer: consistency of all authorized sets with the committed secret =====
+   The dealer (= attacker) publishes arbitrary D1..D4 and slot data.
+   RecD   : PQVS. Slot commitments are DERIVED (D2, D1-D2, ...) and Reconstruct checks Com(s';w') = D1.
+   RecN   : the earlier design. Dealer publishes independent per-slot commitments; nothing ties them to D1. *)
+
+let RecD(D1: cm, Ca: cm, Cb: cm) =
+  in(c, (sa: elem, wa: elem, sb: elem, wb: elem));
+  if com(sa, wa) = Ca then
+  if com(sb, wb) = Cb then
+  let s' = add(sa, sb) in
+  let w' = add(wa, wb) in
+  if com(s', w') = D1 then
+  event RecDone(D1, s').
+
+let Derived =
+  in(c, (D1: cm, D2: cm, D3: cm, D4: cm));
+  ( !RecD(D1, D2, csub(D1, D2)) | !RecD(D1, D3, csub(D1, D3)) | !RecD(D1, D4, csub(D1, D4)) ).
+
+let RecN(D1: cm, Ca: cm, Cb: cm) =
+  in(c, (sa: elem, wa: elem, sb: elem, wb: elem));
+  if com(sa, wa) = Ca then
+  if com(sb, wb) = Cb then
+  event RecNaive(D1, add(sa, sb)).
+
+let Naive =
+  in(c, (D1: cm, Ca1: cm, Cb1: cm, Ca2: cm, Cb2: cm));
+  ( !RecN(D1, Ca1, Cb1) | !RecN(D1, Ca2, Cb2) ).
+
+(* expected: TRUE *)
+query d: cm, x: elem, y: elem; event(RecDone(d, x)) && event(RecDone(d, y)) ==> x = y.
+(* expected: FALSE (ProVerif exhibits the attack) *)
+query d: cm, x: elem, y: elem; event(RecNaive(d, x)) && event(RecNaive(d, y)) ==> x = y.
+(* non-vacuity *)
+query d: cm, x: elem; event(RecDone(d, x)).
+
+process Derived | Naive

@@ -1,0 +1,15 @@
+[2-of-3 DNF] n=3 d=6 l=4 gamma=2 Lambda<=2 zeta<=3
+   authorized sets checked: 4, unauthorized: 4
+   attacks (tampered share/randomness, non-short opening, zero-share, corrupted reconstruction) tested
+[3-of-5 DNF] n=5 d=30 l=21 gamma=3 Lambda<=3 zeta<=10
+   authorized sets checked: 16, unauthorized: 16
+   attacks (tampered share/randomness, non-short opening, zero-share, corrupted reconstruction) tested
+[1-of-4 DNF] n=4 d=4 l=1 gamma=1 Lambda<=1 zeta<=0
+   authorized sets checked: 15, unauthorized: 1
+   attacks (tampered share/randomness, non-short opening, zero-share, corrupted reconstruction) tested
+[mixed (repeated parties)] n=5 d=9 l=6 gamma=3 Lambda<=3 zeta<=4
+   authorized sets checked: 14, unauthorized: 18
+   attacks (tampered share/randomness, non-short opening, zero-share, corrupted reconstruction) tested
+
+2538 checks, 0 failures
+ALL VALIDATION CHECKS PASSED

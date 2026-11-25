@@ -1,0 +1,34 @@
+(* ===== honest dealer: privacy against corrupted parties + reconstruction soundness (2-of-3) =====
+   Queries and the `process` line are appended by run.sh. *)
+
+(* Deal(sv, c1,c2,c3): honest dealer; party Pi's slot data is leaked to the attacker iff ci = true *)
+let Deal(sv: elem, c1: bool, c2: bool, c3: bool) =
+  new y1: elem; new v2: elem; new v3: elem; new v4: elem;
+  new y2: elem; new y3: elem; new y4: elem;
+  let D1 = com(sv, y1) in
+  let D2 = com(v2, y2) in
+  let D3 = com(v3, y3) in
+  let D4 = com(v4, y4) in
+  out(c, (D1, D2, D3, D4));
+  ( if c1 = true then out(c, (v2, y2, v4, y4)) ) |
+  ( if c2 = true then out(c, (sub(sv, v2), sub(y1, y2), v3, y3)) ) |
+  ( if c3 = true then out(c, (sub(sv, v3), sub(y1, y3), sub(sv, v4), sub(y1, y4))) ).
+
+(* Reconstruction of clause A by an honest verifier. P1 reveals its slot; P2's slot comes from the
+   network (attacker). Steps = VerifyShare on P2's slot, then Reconstruct step 4 against D1. *)
+let VerifyA(D1: cm, D2: cm, v2: elem, y2: elem) =
+  out(c, (v2, y2));
+  in(c, (sa: elem, wa: elem));
+  if com(sa, wa) = csub(D1, D2) then
+  let s' = add(v2, sa) in
+  let w' = add(y2, wa) in
+  if com(s', w') = D1 then
+  event Accept(s').
+
+let DealRec(sv: elem) =
+  new y1: elem; new v2: elem; new y2: elem;
+  let D1 = com(sv, y1) in
+  let D2 = com(v2, y2) in
+  event Dealt(sv);
+  out(c, (D1, D2, sub(sv, v2), sub(y1, y2)));     (* P2 corrupted: attacker knows P2's slot *)
+  !VerifyA(D1, D2, v2, y2).
